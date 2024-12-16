@@ -49,15 +49,15 @@ O acesso é vitalício, as credencias são periodicamente renovadas, você sempr
 
 📅 13/12/2024 – Versão 5.5.0 = Versão Paga
 
-🛠️ Correção ao redimensionar área de ticket
-✅ Validação de número no ContactModal
-🔄 Regressão OpenAI para versão 3.3.0 e wbotMessageListener.ts
-🎧 Áudio no iPhone
-📵 Recusando chamadas automaticamente
-📲 Filas da conexão ao requisitar novo QR Code
-📊 Dashboard reformulado
-📈 Página de relatórios
-🗂️ Kanban reformulado
+🛠️ Correção ao redimensionar área de ticket</br>
+✅ Validação de número no ContactModal</br>
+🔄 Regressão OpenAI para versão 3.3.0 e wbotMessageListener.ts</br>
+🎧 Áudio no iPhone</br>
+📵 Recusando chamadas automaticamente</br>
+📲 Filas da conexão ao requisitar novo QR Code</br>
+📊 Dashboard reformulado</br>
+📈 Página de relatórios</br>
+🗂️ Kanban reformulado</br>
 
 📅 07/11/2024 – Versão 5.3.5
 
