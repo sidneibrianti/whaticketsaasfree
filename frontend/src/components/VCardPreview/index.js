@@ -176,7 +176,7 @@ const VCardPreview = ({ contact, numbers }) => {
                             }}
                             disabled={!selectedContact.number || !isContactValid}
                         >
-                            {isContactValid ? "Conversar (Novo Ticket)" : "CONTATO FORA DO WHATSAPP"}
+                            {isContactValid  ? "Conversar (Novo Ticket)" : "CONTATO FORA DO WHATSAPP"}
                         </Button>
                     </Grid>
                 </Grid>

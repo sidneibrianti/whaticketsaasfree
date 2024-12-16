@@ -285,6 +285,7 @@ const messages = {
           email: "Email",
           extraName: "Nome do campo",
           extraValue: "Valor",
+		  disableBot: "Desabilitar chatbot",
           whatsapp: "Conexão Origem: "
         },
         buttons: {
@@ -319,6 +320,20 @@ const messages = {
           okEdit: "Salvar",
           cancel: "Cancelar",
 		  attach: "Anexar Arquivo",
+        },
+		 serviceHours: {
+          dayWeek: "Dia da semana",
+          startTimeA: "Hora Inicial - 1",
+          endTimeA: "Hora Final - 1",
+          startTimeB: "Hora Inicial - 2",
+          endTimeB: "Hora Final - 2",
+          monday: "Segunda-feira",
+          tuesday: "Terça-feira",
+          wednesday: "Quarta-feira",
+          thursday: "Quinta-feira",
+          friday: "Sexta-feira",
+          saturday: "Sábado",
+          sunday: "Domingo",
         },
       },
       userModal: {
@@ -455,7 +470,8 @@ const messages = {
           accept: "Aceitar",
           closed: "Finalizar",
 		  transfer: "Transferir",
-          reopen: "Reabrir"
+          reopen: "Reabrir",
+		  exportAsPDF: "Exportar em PDF"
         },
       },
       newTicketModal: {
@@ -986,6 +1002,7 @@ const messages = {
       },
       messageOptionsMenu: {
         delete: "Deletar",
+		reactionSuccess: "Reação add",
         reply: "Responder",
 		edit: 'Editar Mensagem',
 		forward: "Encaminhar",

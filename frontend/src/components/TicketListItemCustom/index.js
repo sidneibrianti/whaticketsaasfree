@@ -238,6 +238,7 @@ const useStyles = makeStyles((theme) => ({
     try {
       await api.put(`/tickets/${id}`, {
         status: "closed",
+		justClose: true,
         userId: user?.id,
         queueId: ticket?.queue?.id,
         useIntegration: false,

@@ -3,11 +3,13 @@ import * as Sentry from "@sentry/node";
 import fs from "fs";
 import { exec } from "child_process";
 import path from "path";
-import ffmpegPath from "@ffmpeg-installer/ffmpeg";
+import ffmpeg from "fluent-ffmpeg";
 import AppError from "../../errors/AppError";
 import GetTicketWbot from "../../helpers/GetTicketWbot";
 import Ticket from "../../models/Ticket";
 import mime from "mime-types";
+
+import ffmpegPath from "ffmpeg-static";
 import formatBody from "../../helpers/Mustache";
 
 interface Request {
@@ -17,13 +19,15 @@ interface Request {
   isForwarded?: boolean;  
 }
 
+ffmpeg.setFfmpegPath(ffmpegPath);
+
 const publicFolder = path.resolve(__dirname, "..", "..", "..", "public");
 
 const processAudio = async (audio: string): Promise<string> => {
   const outputAudio = `${publicFolder}/${new Date().getTime()}.mp3`;
   return new Promise((resolve, reject) => {
     exec(
-      `${ffmpegPath.path} -i ${audio} -vn -ab 128k -ar 44100 -f ipod ${outputAudio} -y`,
+      `${ffmpegPath} -i ${audio} -vn -ab 128k -ar 44100 -f ipod ${outputAudio} -y`,
       (error, _stdout, _stderr) => {
         if (error) reject(error);
         fs.unlinkSync(audio);
@@ -37,7 +41,7 @@ const processAudioFile = async (audio: string): Promise<string> => {
   const outputAudio = `${publicFolder}/${new Date().getTime()}.mp3`;
   return new Promise((resolve, reject) => {
     exec(
-      `${ffmpegPath.path} -i ${audio} -vn -ar 44100 -ac 2 -b:a 192k ${outputAudio}`,
+      `${ffmpegPath} -i ${audio} -vn -ar 44100 -ac 2 -b:a 192k ${outputAudio}`,
       (error, _stdout, _stderr) => {
         if (error) reject(error);
         fs.unlinkSync(audio);
@@ -47,10 +51,11 @@ const processAudioFile = async (audio: string): Promise<string> => {
   });
 };
 
+
 export const getMessageOptions = async (
   fileName: string,
   pathMedia: string,
-  body?: string
+  body: string = " "
 ): Promise<any> => {
   const mimeType = mime.lookup(pathMedia);
   const typeMessage = mimeType.split("/")[0];
@@ -64,7 +69,7 @@ export const getMessageOptions = async (
     if (typeMessage === "video") {
       options = {
         video: fs.readFileSync(pathMedia),
-        caption: body ? body : '',
+        caption: body ? body : null,
         fileName: fileName
         // gifPlayback: true
       };
@@ -74,15 +79,13 @@ export const getMessageOptions = async (
       if (typeAudio) {
         options = {
           audio: fs.readFileSync(convert),
-          mimetype: typeAudio ? "audio/mp4" : mimeType,
-          caption: body ? body : null,
+          mimetype: "audio/mp4",
           ptt: true
         };
       } else {
         options = {
           audio: fs.readFileSync(convert),
           mimetype: typeAudio ? "audio/mp4" : mimeType,
-          caption: body ? body : null,
           ptt: true
         };
       }
@@ -103,7 +106,7 @@ export const getMessageOptions = async (
     } else {
       options = {
         image: fs.readFileSync(pathMedia),
-        caption: body ? body : null
+        caption: body ? body : null,
       };
     }
 
@@ -114,6 +117,7 @@ export const getMessageOptions = async (
     return null;
   }
 };
+
 
 const SendWhatsAppMedia = async ({
   media,
@@ -143,15 +147,16 @@ const SendWhatsAppMedia = async ({
         const convert = await processAudio(media.path);
         options = {
           audio: fs.readFileSync(convert),
-          mimetype: typeAudio ? "audio/mp4" : media.mimetype,
+          mimetype: "audio/mpeg",
           ptt: true,
           contextInfo: { forwardingScore: isForwarded ? 2 : 0, isForwarded: isForwarded }
         };
       } else {
-        const convert = await processAudioFile(media.path);
+        const convert = await processAudio(media.path);
         options = {
           audio: fs.readFileSync(convert),
-          mimetype: typeAudio ? "audio/mp4" : media.mimetype,
+          mimetype: "audio/mpeg",
+          ptt: true,
           contextInfo: { forwardingScore: isForwarded ? 2 : 0, isForwarded: isForwarded }
         };
       }
@@ -197,3 +202,5 @@ const SendWhatsAppMedia = async ({
 };
 
 export default SendWhatsAppMedia;
+
+
