@@ -14,4 +14,4 @@ rm -rf build
 npm run build
 pm2 restart all
 
-echo "Update finished. Enjoy!"
+echo "Atualização finalizada. Aproveite!"
